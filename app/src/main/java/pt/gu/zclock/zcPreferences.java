@@ -145,11 +145,15 @@ public class zcPreferences extends Activity
         Context context = getApplicationContext();
         saveWidgetPreferences(this, mAppWidgetId);
 
+        Intent applySettings = new Intent(zcService.ZC_SETTINGSUPDATE);
+        applySettings.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        context.sendStickyBroadcast(applySettings);
+
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_OK, resultValue);
         context.startService(new Intent(context, zcService.class));
-        context.sendStickyBroadcast(new Intent(zcService.ZC_BROADCASTUPDATE));
+
         super.onBackPressed();
     }
 
@@ -157,7 +161,7 @@ public class zcPreferences extends Activity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         if (debug) Log.e(TAG,"onSharedPreferenceChanged "+key);
-        setSummary(key,null);
+        setSummary(key, null);
 
     }
 
@@ -169,6 +173,7 @@ public class zcPreferences extends Activity
         loadPreference(INT,"szTimeMins",appWidgetId);
         loadPreference(INT,"szPtrHeight",appWidgetId);
 
+        loadPreference(SIZE, "szWeatherFrame", appWidgetId);
         loadPreference(SIZE,"wClockMargin",appWidgetId);
         loadPreference(SIZE,"wClockFrame",appWidgetId);
         loadPreference(SIZE,"wClockPointer",appWidgetId);
@@ -203,6 +208,7 @@ public class zcPreferences extends Activity
         loadPreference(COLOR,"cShemot",appWidgetId);
 
         //loadPreference(BOOLEAN,"bAlotTzet72",appWidgetId);
+        loadPreference(BOOLEAN,"showWeather",appWidgetId);
         loadPreference(BOOLEAN,"showHebDate",appWidgetId);
         loadPreference(BOOLEAN,"showParashat",appWidgetId);
         loadPreference(BOOLEAN,"showAnaBekoach",appWidgetId);
@@ -210,8 +216,8 @@ public class zcPreferences extends Activity
         loadPreference(BOOLEAN,"showZmanim",appWidgetId);
         loadPreference(BOOLEAN,"showTimeMarks",appWidgetId);
         loadPreference(BOOLEAN,"bLangHebrew",appWidgetId);
-        loadPreference( BOOLEAN, "bClockElapsedTime", appWidgetId);
-        loadPreference( BOOLEAN, "bWhiteOnBlack", appWidgetId);
+        loadPreference(BOOLEAN,"bClockElapsedTime",appWidgetId);
+        loadPreference(BOOLEAN,"bWhiteOnBlack",appWidgetId);
 
         loadPreference(INT,"nShemot",appWidgetId);
     }
@@ -288,6 +294,7 @@ public class zcPreferences extends Activity
         savePreference(SIZE,"wClockPointer",appWidgetId);
         savePreference(INT,"szPtrHeight",appWidgetId);
 
+        savePreference(SIZE,"szWeatherFrame",appWidgetId);
         savePreference(SIZE,"szZmanim_sun",appWidgetId);
         savePreference(SIZE,"szZmanim_main",appWidgetId);
         savePreference(SIZE,"szZmanimAlotTzet",appWidgetId);
@@ -319,6 +326,7 @@ public class zcPreferences extends Activity
         savePreference(COLOR,"cShemot",appWidgetId);
 
         //savePreference(BOOLEAN,"bAlotTzet72",appWidgetId);
+        savePreference(BOOLEAN,"showWeather",appWidgetId);
         savePreference(BOOLEAN,"showZmanim",appWidgetId);
         savePreference(BOOLEAN,"showTimeMarks",appWidgetId);
         savePreference(BOOLEAN,"showHebDate",appWidgetId);
@@ -330,6 +338,8 @@ public class zcPreferences extends Activity
         savePreference( BOOLEAN, "bWhiteOnBlack", appWidgetId);
 
         savePreference(INT,"nShemot",appWidgetId);
+
+        saveColorTheme(sharedPreferences.getString("colorTheme", "#00C3FF"), appWidgetId);
     }
 
     private void savePreference(prefType type,String key, int appWidgetId){
@@ -362,6 +372,23 @@ public class zcPreferences extends Activity
                 break;
             default: break;
         }
+        ed.apply();
+    }
+
+    private void saveColorTheme(String colorTheme, int appWidgetId) {
+        Log.e(TAG,"saveColorTheme "+colorTheme);
+        String[] c_array = colorTheme.split(",");
+        SharedPreferences.Editor ed = sharedPreferences.edit();
+        ed.putInt("cClockFrameOn" + appWidgetId, Color.parseColor(c_array[0]));
+        ed.putInt("cZmanim_sun"+appWidgetId,Color.parseColor(c_array[0]));
+        ed.putInt("cClockFrameOff"+appWidgetId, Color.parseColor(c_array[1]));
+        ed.putInt("cZmanim_main"+appWidgetId,Color.parseColor(c_array[2]));
+        ed.putInt("cZmanimAlotTzet"+appWidgetId,Color.parseColor(c_array[3]));
+        ed.putInt("cTimemarks"+appWidgetId,Color.parseColor(c_array[5]));
+        ed.putInt("cParshat"+appWidgetId,Color.parseColor(c_array[5]));
+        ed.putInt("cTime" + appWidgetId, Color.parseColor(c_array[4]));
+        ed.putInt("cDate" + appWidgetId, Color.parseColor(c_array[6]));
+        ed.putInt("cShemot" + appWidgetId, Color.parseColor(c_array[7]));
         ed.apply();
     }
 

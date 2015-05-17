@@ -13,6 +13,7 @@
 	<dimen name="wClockMargin">7dp</dimen>
 	<dimen name="wClockFrame">3dp</dimen>
 	<dimen name="wClockPointer">2dp</dimen>
+	<dimen name="szWeatherFrame">2dp</dimen>
 
 	<dimen name="szZmanim_sun">6dp</dimen>
 	<dimen name="szZmanim_main">6dp</dimen>
@@ -42,5 +43,6 @@
 	<bool name="showParashat">true</bool>
 	<bool name="showAnaBekoach">true</bool>
 	<bool name="show72Hashem">true</bool>
+	<bool name="showWeather">true</bool>
 	<bool name="bClockElapsedTime">true</bool>
 </resources>

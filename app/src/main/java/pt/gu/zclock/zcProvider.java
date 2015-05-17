@@ -2,7 +2,6 @@ package pt.gu.zclock;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,11 +23,6 @@ public class zcProvider extends AppWidgetProvider {
     private static boolean      debug                 = true;
     private static String       TAG                   = "zcProvider";
 
-    public static final String  ZC_APPWIDGETUPDATE = "pt.gu.zclock.appwidget";
-
-    static final Intent         iService = new Intent(ZC_APPWIDGETUPDATE);
-    static final ComponentName  mWidget = new ComponentName("pt.gu.zclock","pt.gu.zclock.zcProvider");
-
     private static      zcProvider sProvider;
 
     static synchronized zcProvider getInstance(){
@@ -44,13 +38,13 @@ public class zcProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
         if (debug) Log.e(TAG, "onDisabled");
-        context.stopService(new Intent(zcService.ZC_BROADCASTUPDATE));
+        context.stopService(new Intent(context.getApplicationContext(),zcService.class));
         if (debug) Toast.makeText(context, "zClock removed", Toast.LENGTH_SHORT).show();
         context.getApplicationContext().stopService(new Intent(context.getApplicationContext(), zcService.class));
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor ed = sharedPreferences.edit();
         ed.clear();
-        ed.commit();
+        ed.apply();
         super.onDisabled(context);
     }
 
@@ -60,7 +54,7 @@ public class zcProvider extends AppWidgetProvider {
 
         if (debug) Log.e(TAG, "onUpdate");
         context.startService(new Intent(context,zcService.class));
-        context.sendStickyBroadcast(new Intent(zcService.ZC_BROADCASTUPDATE));
+        context.sendStickyBroadcast(new Intent(zcService.ZC_SETTINGSUPDATE));
 
     }
 
@@ -83,11 +77,10 @@ public class zcProvider extends AppWidgetProvider {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
 
         if (debug) Log.e(TAG,"onAppWidgetOptionsChanged");
-        //context.startService(new Intent(zcService.ZC_BROADCASTUPDATE));
 
         //update widgets
         updateWidgetSize(context, appWidgetId);
-        context.sendBroadcast(new Intent(zcService.ZC_BROADCASTUPDATE));
+        context.sendBroadcast(new Intent(zcService.ZC_SETTINGSUPDATE));
     }
 
     public void removeWidgetPreferences(Context context,int appWidgetId){
@@ -145,7 +138,7 @@ public class zcProvider extends AppWidgetProvider {
         ed.remove("showTimeMarks"+appWidgetId);
         ed.remove("nShemot"+appWidgetId);
 
-        ed.commit();
+        ed.apply();
 
     }
 
@@ -177,127 +170,7 @@ public class zcProvider extends AppWidgetProvider {
         ed.putFloat("widgetHeight" + appWidgetId, (float) h);
         ed.putInt("widgetCellWidth" + appWidgetId, wCells);
         ed.putInt("widgetCellHeight" + appWidgetId, hCells);
-        ed.commit();
+        ed.apply();
     }
 
-    private boolean hasInstances(Context context){
-        AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        int[] ids = manager.getAppWidgetIds(mWidget);
-        return (ids.length>0);
-    }
-
-    //region Deprecated Code
-    /*
-
-    public  zcWeather           mWeather;
-    public  zcLocation          mLocation;
-    private long            lastLocationUpdate    = 0;
-    private long            lastWeatherUpdate     = 0;
-    private long            lastZmanimUpdate      = 0;
-
-    public void updateClock(Context context){
-
-        if (debug) Log.e(TAG,"updateClock");
-
-        mManager = new zcWidgetManager(context);
-        mManager.updateClock();
-    }
-
-    public void setLastWeatherUpdate(long time){
-        lastWeatherUpdate = time;
-    }
-
-
-
-    public boolean checkLocationUpdate(Context context,boolean forceUpdate) {
-
-        try {
-            if (debug) Log.e(TAG, "checkLocationUpdate");
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            if (forceUpdate) {
-                return mLocation.update();
-            }
-            long locationUpdateTimeout = 3 * 3600000;
-            return System.currentTimeMillis() - sharedPreferences.getLong("lastLocationUpdate", 0) > locationUpdateTimeout && mLocation.update();
-        } catch (NullPointerException ignore){
-            return false;
-        }
-    }
-
-    public boolean checkWeatherUpdate(Context context,boolean forceUpdate) {
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (debug) Log.e(TAG,"checkWeatherUpdate");
-
-        if (sharedPreferences.getLong("lastLocationUpdate",0)==0){
-            return false;
-        }
-        if (forceUpdate) {
-            return mWeather.updateForecast();
-        }
-        long weatherUpdateTimeout = 3 * 3600000;
-        if (System.currentTimeMillis()-sharedPreferences.getLong("lastForecastUpdate",0) > weatherUpdateTimeout){
-            return mWeather.updateForecast();
-        }
-        return false;
-    }
-
-
-    public void setWeatherForecast(WeatherData[] hForecast) {
-        if (debug) Log.e(TAG,"setWeatherForecast");
-        weatherForecast = hForecast;
-    }
-
-    public WeatherData[] getWeatherForecast(){
-        if (debug) Log.e(TAG,"getWeatherForecast");
-        return weatherForecast;
-    }
-    */
-    
-
-    /*
-    public static long getLastWeatherUpdate(){
-        return lastWeatherUpdate;
-    }
-    public static void updateLocation(Context context){
-        wManager = new zcWidgetManager(context);
-        wManager.updateLocation(context);
-    }
-
-    public void setLastLocationUpdate(long time){
-        if (debug) Log.e(TAG,"setLastLocationUpdate");
-        lastLocationUpdate = time;
-    }
-
-    public long getLastLocationUpdate(){
-        if (debug) Log.e(TAG,"getLastLocationUpdate");
-        return lastLocationUpdate;
-    }
-
-    public static zcLocation getwLocation(){
-        if (debug) Log.e(TAG,"getwLocation");
-        return wLocation;
-    }
-
-    public static void setLastZmanimUpdate(long time){
-        if (debug) Log.e(TAG,"setLastZmanimUpdate");
-        lastZmanimUpdate = time;
-    }
-
-    public static long getLastZmanimUpdate(){
-        if (debug) Log.e(TAG,"getLastZmanimUpdate");
-        return lastZmanimUpdate;
-    }
-
-    public static boolean isInitialized() {
-        return (wLocation == null);
-    }
-
-    public static void initialize(Context context) {
-        if (debug) Log.e(TAG,"initialize");
-        if (wLocation== null) wLocation= new zcLocation(context);
-        if (wWeather == null) wWeather = new zcWeather(context,wLocation.latitude,wLocation.longitude);
-        if (wManager == null) wManager = new zcWidgetManager(context);
-    }*/
-    //endregion
 }

@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.preference.ListPreference;
+import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -53,7 +54,7 @@ public class ColorListPreference extends ListPreference {
         //Attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorListPreference);
         radBitmap = a.getDimension(R.styleable.ColorListPreference_paletteSize, 32);
-        fillRatio = a.getFloat(R.styleable.ColorListPreference_paletteFillRatio, 0.8f);
+        fillRatio = a.getFloat(R.styleable.ColorListPreference_paletteFillRatio, 0.9f);
         mSVPattern = a.getString(R.styleable.ColorListPreference_patternSV);
         mSetSummary = a.getBoolean(R.styleable.ColorListPreference_autoSummary, false);
         a.recycle();
@@ -63,7 +64,7 @@ public class ColorListPreference extends ListPreference {
     }
 
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         mEntries = getEntries();
@@ -82,10 +83,14 @@ public class ColorListPreference extends ListPreference {
 
         for (int i = 0; i < mEntryValues.length; i++) {
             d = mResources.getDrawable(R.drawable.prf_colorlist_radiobutton);
-            ((LayerDrawable) d).setDrawableByLayerId(
-                    R.id.bitmap,
-                    new BitmapDrawable(
-                            mResources, getBitmapColorIcon(i)));
+            try {
+                ((LayerDrawable) d).setDrawableByLayerId(
+                        R.id.bitmap,
+                        new BitmapDrawable(
+                                mResources, getBitmapColorIcon(i)));
+            } catch (Exception ignore){
+                Log.e("ColorListPreference",ignore.toString());
+            }
             mDrawable[i] = d;
         }
 
@@ -149,6 +154,10 @@ public class ColorListPreference extends ListPreference {
         Bitmap b = Bitmap.createBitmap(w, w, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint pstroke = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pstroke.setStyle(Paint.Style.STROKE);
+        pstroke.setColor(Color.BLACK);
+        pstroke.setStrokeWidth(1.5f);
         RectF r = new RectF(w * (1 - fillRatio), w * (1 - fillRatio), w * fillRatio, w * fillRatio);
 
         if (mSVPattern != null) {
@@ -171,6 +180,7 @@ public class ColorListPreference extends ListPreference {
                 p.setColor(newcolor);
                 s += String.format("#%06X", newcolor);
                 c.drawArc(r, i * ang + pad, ang - pad, true, p);
+                c.drawArc(r, i * ang + pad, ang - pad, true, pstroke);
             }
             mArrayValues[index] = s;
             return b;
@@ -178,21 +188,21 @@ public class ColorListPreference extends ListPreference {
             String[] colors = mEntryValues[index].toString().split(",");
             int len = colors.length;
             float ang = 360 / len;
-            float pad = 6 * (len - 1) / len;
             for (int i = 0; i < len; i++) {
                 p.setColor(Color.parseColor(colors[i]));
-                c.drawArc(r, i * ang + pad, ang - pad, true, p);
+                c.drawArc(r, i * ang, ang, true, p);
             }
             mArrayValues[index] = mEntryValues[index];
             return b;
         }
     }
 
+
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
         if (entryIndex >= 0 && mEntryValues != null) {
-            String value = mArrayValues[entryIndex].toString();
+            String value = (String) mArrayValues[entryIndex];
             if (callChangeListener(value)) {
                 setValue(value);
             }

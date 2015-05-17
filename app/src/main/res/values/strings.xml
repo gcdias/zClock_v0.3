@@ -53,4 +53,6 @@
     <string name="colormainTheme">Main Theme</string>
 	<string name="colorTheme">Color theme</string>
 	<string name="colorThemeSum">Zmanim Clock color theme</string>
+	<string name="pshowWeather">Show Weather Forecast Frame</string>
+	<string name="pszWeatherFrame">Frame Width</string>
 </resources>

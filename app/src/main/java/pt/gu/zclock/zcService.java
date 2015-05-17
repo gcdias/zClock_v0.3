@@ -26,13 +26,10 @@ public class zcService extends Service {
     private final String       TAG   = "zcService";
     private boolean            debug = true;
 
-    public static final String ZC_BROADCASTUPDATE = "pt.gu.zclock.service";
+    public static final String ZC_SETTINGSUPDATE = "pt.gu.zclock.service";
     public static final String ZC_FORECASTUPDATE  = "pt.gu.zclock.forecast";
     public static final String ZC_LOCATIONUPDATE = "pt.gu.zclock.location";
 
-    private zcProvider         mProvider = zcProvider.getInstance();
-    private BroadcastReceiver  mReceiver = null;
-    private SharedPreferences  mPreferences;
     private zcWidgetManager    mManager;
     private boolean            pmScreenOn = true;
 
@@ -45,7 +42,7 @@ public class zcService extends Service {
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(ZC_FORECASTUPDATE);
         intentFilter.addAction(ZC_LOCATIONUPDATE);
-        intentFilter.addAction(ZC_BROADCASTUPDATE);
+        intentFilter.addAction(ZC_SETTINGSUPDATE);
     }
 
     private BroadcastReceiver  intentReceiver = new BroadcastReceiver() {
@@ -81,8 +78,10 @@ public class zcService extends Service {
                     updateWidgets(context, manager, manager.getAppWidgetIds(widgets));
                 }
 
-                if (action.equals(ZC_BROADCASTUPDATE)) {
+                if (action.equals(ZC_SETTINGSUPDATE)) {
                     if (debug) Log.e(TAG + ".onReceive", "zc_broadcast Intent");
+                    int id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
+                    if (id!=AppWidgetManager.INVALID_APPWIDGET_ID) mManager.resetClock(id);
                     updateWidgets(context, manager, manager.getAppWidgetIds(widgets));
                 }
             }
@@ -102,7 +101,6 @@ public class zcService extends Service {
         super.onCreate();
         if (debug) Log.e(TAG, "onCreate");
         Context context = getApplicationContext();
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         mManager     = new zcWidgetManager(context);
         registerReceiver(intentReceiver, intentFilter);
     }
@@ -170,7 +168,7 @@ public class zcService extends Service {
         ed.putFloat("widgetHeight" + appWidgetId, (float) h);
         ed.putInt("widgetCellWidth" + appWidgetId, wCells);
         ed.putInt("widgetCellHeight" + appWidgetId, hCells);
-        ed.commit();
+        ed.apply();
     }
 
     @Override

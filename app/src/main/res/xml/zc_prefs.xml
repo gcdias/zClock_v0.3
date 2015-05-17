@@ -11,17 +11,29 @@
 		android:title="@string/pCurrLocation" />
 	<pt.gu.zclock.ColorListPreference
 		android:key="colorTheme"
-		android:title="Color Theme"
-		android:summary="@string/colorThemeSum"
+		android:defaultValue="#00C3FF"
 		android:entries="@array/themeName"
 		android:entryValues="@array/themeColor"
-		colorpref:paletteSize="48dp"/>
+		colorpref:patternSV="@string/themePattern"
+		colorpref:paletteSize="42dp"/>
 	<ListPreference
 		android:defaultValue="@integer/clockMode"
 		android:entries="@array/clockType"
 		android:entryValues="@array/clockType_value"
 		android:key="clockMode"
 		android:title="Clock Mode" />
+	<PreferenceScreen
+		android:title="Weather"
+		android:summary="Weather forecast frame setup">
+		<CheckBoxPreference android:key="showWeather"
+			android:defaultValue="@bool/showWeather"
+			android:title="@string/pshowWeather"/>
+		<ListPreference android:key="szWeatherFrame"
+            android:title="@string/pszWeatherFrame"
+            android:entries="@array/sz_names"
+            android:entryValues="@array/szPercentL"
+            android:defaultValue="@dimen/szWeatherFrame"/>
+	</PreferenceScreen>
 	<PreferenceScreen
 		android:summary="@string/ps_sumClockLayout"
 		android:title="@string/psClockLayout">

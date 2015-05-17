@@ -12,8 +12,7 @@
 	<color name="cShemot">#07ffffff</color>
 
     <string-array name="themeName">
-        <item>Light Zmanim Clock</item>
-        <item>Dark Zmanim Clock</item>
+        <item>Zmanim Clock</item>
         <item>Lime</item>
         <item>Green</item>
         <item>Emerald</item>
@@ -36,8 +35,7 @@
         <item>Sienna</item>
     </string-array>
     <string-array name="themeColor">
-        <item>#00C3FF,#FFFFFF</item>
-        <item>#202020,#202020</item>
+        <item>#00C3FF</item>
         <item>#A4C400</item>
         <item>#60A917</item>
         <item>#008A00</item>
@@ -59,5 +57,5 @@
         <item>#76608A</item>
         <item>#A0522D</item>
     </string-array>
-    <string name ="themePattern">#FF00C3FF,#1000C3FF,#FF00C3FF,#A020C3FF,#800090C0,#FFFFFFFF</string>
+    <string name ="themePattern">#FF00C3FF,#2000C3FF,#a020c3ff,#800090c0,#FFFFFFFF,#80FFFFFF,#C3FFFFFF,#10FFFFFF</string>
 </resources>

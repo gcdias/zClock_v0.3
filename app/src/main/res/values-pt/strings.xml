@@ -30,6 +30,8 @@
 	<string name="sWeek">semana</string>
 	<string name="omerSep">de</string>
     <string name="colormainTheme">Tema principal</string>
-	<string name="colorTheme">Color theme</string>
+	<string name="colorTheme">Cor do Tema</string>
 	<string name="colorThemeSum">colorThemeSum</string>
+	<string name="pshowWeather">Mostrar Moldura Meteorológica</string>
+	<string name="pszWeatherFrame">Tamanho da Moldura</string>
 </resources>

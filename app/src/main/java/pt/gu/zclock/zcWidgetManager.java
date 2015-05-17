@@ -208,6 +208,8 @@ public class zcWidgetManager {
 
         mClock.setup(appWidgetId, getNewDayTime(appWidgetId));
 
+        mClock.resetLabelEvents();
+
         int cTime  = getColorPref("cTime",appWidgetId);
         int cDate = xColor.copyAlpha(getColorPref("cDate", appWidgetId), cTime);
         int cParshat = xColor.copyAlpha(getColorPref("cParshat", appWidgetId), cTime);
@@ -222,7 +224,7 @@ public class zcWidgetManager {
             if (jCalendar.getDayOfOmer()>-1) {
                 int o = jCalendar.getDayOfOmer()-1;
                 String sep = bHeb ? hebrewFormat.getHebrewOmerPrefix() : mContext.getResources().getString(R.string.omerSep);
-                String omer = String.format("%s (%s %s %s)",hebrewFormat.formatOmer(jCalendar), omerSefirot[o%7],sep,omerSefirot[(int)(o/7)]);
+                String omer = String.format("%s (%s %s %s)",hebrewFormat.formatOmer(jCalendar), omerSefirot[o%7],sep,omerSefirot[(o/7)]);
                 mClock.addLabel(omer,
                         getDimensPref("szParshat", appWidgetId),
                         cParshat,
@@ -508,10 +510,10 @@ public class zcWidgetManager {
         int day = jCalendar.getDayOfWeek();
         String result = (parshaNameOnly) ? "" : (inHebrew) ? ((day % 7 == 0) ? "שבת " : "פרשת השבוע ") : ((day % 7 == 0) ? "Shabbat " : "Parashat Hashavua ");
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 7 - day);
+        c.set(jCalendar.getGregorianYear(),jCalendar.getGregorianMonth(),jCalendar.getGregorianDayOfMonth()+7-day,0,0);
         hebrewFormat.setHebrewFormat(inHebrew);
         String p =hebrewFormat.formatParsha(new JewishCalendar(c.getTime()));
-        return (p == "") ? "" : result + p ;
+        return (p.equals("")) ? "" : result + p ;
     }
 
     private int getParshaHashavuaIndex(Calendar cal) {
@@ -634,7 +636,7 @@ public class zcWidgetManager {
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
         p.setColor(bkgColor);
         canvas.drawRoundRect(new RectF(0, 0, size.x, size.y), corners, corners, p);
-        float y_pos = centro.y;
+        float y_pos;
         p.setTypeface(typeface);
         p.setTextAlign(Paint.Align.CENTER);
 

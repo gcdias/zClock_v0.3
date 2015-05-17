@@ -170,68 +170,118 @@ public class zcHelper {
             return null;
         }
 
-        public float getColorS(){
-            switch (this){
-                case UNKNOWN: return 0;
+        public float getColorS() {
+                switch (this) {
+                    case UNKNOWN:
+                        return 0;
         /* Thunderstorm */
-                case THUNDERSTORM_WITH_LIGHT_RAIN: return 0.5f;
-                case THUNDERSTORM_WITH_RAIN: return 0.4f;
-                case THUNDERSTORM_WITH_HEAVY_RAIN: return 0.3f;
-                case LIGHT_THUNDERSTORM: return 0.5f;
-                case THUNDERSTORM: return 0.3f;
-                case HEAVY_THUNDERSTORM: return 0.2f;
-                case RAGGED_THUNDERSTORM: return 0.4f;
-                case THUNDERSTORM_WITH_LIGHT_DRIZZLE: return 0.5f;
-                case THUNDERSTORM_WITH_DRIZZLE: return 0.45f;
-                case THUNDERSTORM_WITH_HEAVY_DRIZZLE: return 0.3f;
+                    case THUNDERSTORM_WITH_LIGHT_RAIN:
+                        return 0.5f;
+                    case THUNDERSTORM_WITH_RAIN:
+                        return 0.4f;
+                    case THUNDERSTORM_WITH_HEAVY_RAIN:
+                        return 0.3f;
+                    case LIGHT_THUNDERSTORM:
+                        return 0.5f;
+                    case THUNDERSTORM:
+                        return 0.3f;
+                    case HEAVY_THUNDERSTORM:
+                        return 0.2f;
+                    case RAGGED_THUNDERSTORM:
+                        return 0.4f;
+                    case THUNDERSTORM_WITH_LIGHT_DRIZZLE:
+                        return 0.5f;
+                    case THUNDERSTORM_WITH_DRIZZLE:
+                        return 0.45f;
+                    case THUNDERSTORM_WITH_HEAVY_DRIZZLE:
+                        return 0.3f;
         /* Drizzle */
-                case LIGHT_INTENSITY_DRIZZLE: return 0.3f;
-                case DRIZZLE: return 0.3f;
-                case HEAVY_INTENSITY_DRIZZLE: return 0.3f;
-                case LIGHT_INTENSITY_DRIZZLE_RAIN: return 0.3f;
-                case DRIZZLE_RAIN: return 0.3f;
-                case HEAVY_INTENSITY_DRIZZLE_RAIN: return 0.3f;
-                case SHOWER_DRIZZLE: return 0.2f;
+                    case LIGHT_INTENSITY_DRIZZLE:
+                        return 0.3f;
+                    case DRIZZLE:
+                        return 0.3f;
+                    case HEAVY_INTENSITY_DRIZZLE:
+                        return 0.3f;
+                    case LIGHT_INTENSITY_DRIZZLE_RAIN:
+                        return 0.3f;
+                    case DRIZZLE_RAIN:
+                        return 0.3f;
+                    case HEAVY_INTENSITY_DRIZZLE_RAIN:
+                        return 0.3f;
+                    case SHOWER_DRIZZLE:
+                        return 0.2f;
         /* Rain */
-                case LIGHT_RAIN: return 0.4f;
-                case MODERATE_RAIN: return 0.3f;
-                case HEAVY_INTENSITY_RAIN: return 0.2f;
-                case VERY_HEAVY_RAIN: return 0.1f;
-                case EXTREME_RAIN: return 0.1f;
-                case FREEZING_RAIN: return 0.3f;
-                case LIGHT_INTENSITY_SHOWER_RAIN: return 0.4f;
-                case SHOWER_RAIN: return 0.3f;
-                case HEAVY_INTENSITY_SHOWER_RAIN: return 0.3f;
+                    case LIGHT_RAIN:
+                        return 0.4f;
+                    case MODERATE_RAIN:
+                        return 0.3f;
+                    case HEAVY_INTENSITY_RAIN:
+                        return 0.2f;
+                    case VERY_HEAVY_RAIN:
+                        return 0.1f;
+                    case EXTREME_RAIN:
+                        return 0.1f;
+                    case FREEZING_RAIN:
+                        return 0.3f;
+                    case LIGHT_INTENSITY_SHOWER_RAIN:
+                        return 0.4f;
+                    case SHOWER_RAIN:
+                        return 0.3f;
+                    case HEAVY_INTENSITY_SHOWER_RAIN:
+                        return 0.3f;
         /* Snow */
-                case LIGHT_SNOW: return 0.3f;
-                case SNOW: return 0.5f;
-                case HEAVY_SNOW: return 0.2f;
-                case SLEET: return 0.6f;
-                case SHOWER_SNOW: return 0.4f;
+                    case LIGHT_SNOW:
+                        return 0.3f;
+                    case SNOW:
+                        return 0.5f;
+                    case HEAVY_SNOW:
+                        return 0.2f;
+                    case SLEET:
+                        return 0.6f;
+                    case SHOWER_SNOW:
+                        return 0.4f;
         /* Atmosphere */
-                case MIST: return 0.7f;
-                case SMOKE: return 0.4f;
-                case HAZE: return 0.2f;
-                case SAND_OR_DUST_WHIRLS: return 0.7f;
-                case FOG: return 0.2f;
+                    case MIST:
+                        return 0.7f;
+                    case SMOKE:
+                        return 0.4f;
+                    case HAZE:
+                        return 0.2f;
+                    case SAND_OR_DUST_WHIRLS:
+                        return 0.7f;
+                    case FOG:
+                        return 0.2f;
         /* Clouds */
-                case SKY_IS_CLEAR: return 0.9f;
-                case FEW_CLOUDS: return 0.85f;
-                case SCATTERED_CLOUDS: return 0.82f;
-                case BROKEN_CLOUDS: return 0.8f;
-                case OVERCAST_CLOUDS: return 0.75f;
+                    case SKY_IS_CLEAR:
+                        return 0.9f;
+                    case FEW_CLOUDS:
+                        return 0.85f;
+                    case SCATTERED_CLOUDS:
+                        return 0.82f;
+                    case BROKEN_CLOUDS:
+                        return 0.8f;
+                    case OVERCAST_CLOUDS:
+                        return 0.75f;
         /* Extreme */
-                case TORNADO: return 0.7f;
-                case TROPICAL_STORM: return 0.7f;
-                case HURRICANE: return 0.7f;
-                case COLD: return 1;
-                case HOT: return 1;
-                case WINDY: return 1;
-                case HAIL: return 0;
+                    case TORNADO:
+                        return 0.7f;
+                    case TROPICAL_STORM:
+                        return 0.7f;
+                    case HURRICANE:
+                        return 0.7f;
+                    case COLD:
+                        return 1;
+                    case HOT:
+                        return 1;
+                    case WINDY:
+                        return 1;
+                    case HAIL:
+                        return 0;
 
-                default: return 0;
-            }
-        };
+                    default:
+                        return 0;
+                }
+        }
 
         public float getColorV(){
             switch (this){
@@ -294,7 +344,7 @@ public class zcHelper {
 
                 default: return 0;
             }
-        };
+        }
     }
     
     public static class xColor extends Color {
@@ -421,9 +471,13 @@ public class zcHelper {
             if (t>maxTempScale) t=maxTempScale;
             if (t<minTempScale)  t=minTempScale;
             hsv[0] = 360*startHue*(1-(t-minTempScale)/(maxTempScale-minTempScale));
-            owmCode c = getEnum(this.weather_id);
-            hsv[1] = c.getColorS() * adjustsat;
-            hsv[2] = c.getColorV();
+            try{
+                owmCode c = getEnum(this.weather_id);
+                hsv[1] = c.getColorS() * adjustsat;
+                hsv[2] = c.getColorV();
+            } catch (Exception ignore){
+                if (debug) Log.e(TAG+"/getColorCondition:",ignore.toString());
+            }
             return Color.HSVToColor(alpha,hsv);
         }
 
@@ -603,7 +657,7 @@ public class zcHelper {
 
             Qidmi,          //3. Inclusivo: mispar qdimi (letra valor triangular)
 
-            Musafi,          //4. Aditorio: mispar musafi quando nº externo de palavras ou letras é adicionado
+            Musafi,          //4. Aditorio: mispar musafi quando no. externo de palavras ou letras adicionado
 
             MereviaKlali,   //5. Quadratico da palavra: mispar merevia klali: valor da palavra * valor de cada letra = quadrado da palavra
 
@@ -616,13 +670,13 @@ public class zcHelper {
 
             Mispari,        //8. Numeral: mispar mispari: valor do nome do numero da letra
 
-            MispariHagadol, //9. Numeral Maior: mispari hagadol: numeral com integração: (yod) = yod = esrim;
+            MispariHagadol, //9. Numeral Maior: mispari hagadol: numeral com integracao: (yod) = yod = esrim;
 
-            Chitzuni,       //10. Externo: mispar chitzuni: (contagem de letras) todas as letras valem 1 não aplicado a YHVH (Asis Rimonim 36b)
+            Chitzuni,       //10. Externo: mispar chitzuni: (contagem de letras) todas as letras valem 1 nao aplicado a YHVH (Asis Rimonim 36b)
 
             Gadol,          //11. Maior: mispar gadol: contagem das formas finais 500-900 (mispar gadol mntzpkh)
 
-            Kaful,          //12. Multiplo: mispar kaful: (cf.III.D.c) multiplicação das letras
+            Kaful,          //12. Multiplo: mispar kaful: (cf.III.D.c) multiplicacoo das letras
 
             Chalqi,         //13. Quociente: mispar chalqui: (cf. III.D.d)
 
@@ -630,15 +684,15 @@ public class zcHelper {
 
             MeaqavPerati,   //15. Cubico da letra: mispar me'akav perati: cubo da letra normal (cf. Chayyath, Minchat Yehudi)
 
-            EserKlalot,     //16. Involução primeira decada: eser mispar klalot: cf.III.D.a
+            EserKlalot,     //16. Involucao primeira decada: eser mispar klalot: cf.III.D.a
 
-            HaklalotKlalot, //17. Involução segunda decada: haklalot mispar klalot:
+            HaklalotKlalot, //17. Involucao segunda decada: haklalot mispar klalot:
 
-            ShemiSheni,     //18. Dupla integração: mispar shemi sheni
+            ShemiSheni,     //18. Dupla integracao: mispar shemi sheni
 
-            Temuri,         //19. Permutação: mispar temuri (II.2.c), quando o valor das letras permutadas
+            Temuri,         //19. Permutacao: mispar temuri (II.2.c), quando o valor das letras permutadas
 
-            Revua           //20-22. Quaternionico: mispar revua: da palavra (20), integrada (21) e integração dupla (22)
+            Revua           //20-22. Quaternionico: mispar revua: da palavra (20), integrada (21) e integracao dupla (22)
         }
 
         public enum gematriaTable {
@@ -715,13 +769,13 @@ public class zcHelper {
             int i = otsequence.length();
             Vector<Integer> fa = new Vector<>();
             for (int j=i;j>0;j--){
-
+                //TODO
             }
             return new int[27];
         }
 
         public class Gematria{
-
+            //TODO
             private int[] gematriaTable;
 
             private Mispar _msp;
@@ -742,7 +796,7 @@ public class zcHelper {
                     case Hechrachi:
                         //1. Normal: m' mechrach, mispar hechrachi
                     case Musafi:
-                        //4. Aditorio: mispar musafi quando nº externo de palavras ou letras é adicionado
+                        //4. Aditorio: mispar musafi quando no externo de palavras ou letras adicionado
                         return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 20, 30, 40, 40, 50, 50, 60, 70, 80, 80, 90, 90, 100, 200, 300, 400 };
 
                     case MeugalKlali:
@@ -779,16 +833,16 @@ public class zcHelper {
                     case Mispari:
                         //8. Numeral: mispar mispari: valor do nome do numero da letra
 
-                    case MispariHagadol: //9. Numeral Maior: mispari hagadol: numeral com integração: (yod) = yod = esrim;
+                    case MispariHagadol: //9. Numeral Maior: mispari hagadol: numeral com integracao: (yod) = yod = esrim;
 
 
-                    case Chitzuni:       //10. Externo: mispar chitzuni: (contagem de letras) todas as letras valem 1 não aplicado a YHVH (Asis Rimonim 36b)
+                    case Chitzuni:       //10. Externo: mispar chitzuni: (contagem de letras) todas as letras valem 1 nao aplicado a YHVH (Asis Rimonim 36b)
 
                     case Gadol:
                         //11. Maior: mispar gadol: contagem das formas finais 500-900 (mispar gadol mntzpkh)
                         return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 500, 20, 30, 600, 40, 700, 50, 60, 70, 800, 80, 900, 90, 100, 200, 300, 400 };
 
-                    case Kaful:          //12. Multiplo: mispar kaful: (cf.III.D.c) multiplicação das letras
+                    case Kaful:          //12. Multiplo: mispar kaful: (cf.III.D.c) multiplicacao das letras
 
                     case Chalqi:         //13. Quociente: mispar chalqui: (cf. III.D.d)
 
@@ -796,15 +850,15 @@ public class zcHelper {
 
                     case MeaqavPerati:   //15. Cubico da letra: mispar me'akav perati: cubo da letra normal (cf. Chayyath, Minchat Yehudi)
 
-                    case EserKlalot:     //16. Involução primeira decada: eser mispar klalot: cf.III.D.a
+                    case EserKlalot:     //16. Involucao primeira decada: eser mispar klalot: cf.III.D.a
 
-                    case HaklalotKlalot: //17. Involução segunda decada: haklalot mispar klalot:
+                    case HaklalotKlalot: //17. Involucao segunda decada: haklalot mispar klalot:
 
-                    case ShemiSheni:     //18. Dupla integração: mispar shemi sheni
+                    case ShemiSheni:     //18. Dupla integracao: mispar shemi sheni
 
-                    case Temuri:         //19. Permutação: mispar temuri (II.2.c), quando o valor das letras permutadas
+                    case Temuri:         //19. Permutacao: mispar temuri (II.2.c), quando o valor das letras permutadas
 
-                    case Revua:          //20-22. Quaternionico: mispar revua: da palavra (20), integrada (21) e integração dupla (22)
+                    case Revua:          //20-22. Quaternionico: mispar revua: da palavra (20), integrada (21) e integracao dupla (22)
 
 
 

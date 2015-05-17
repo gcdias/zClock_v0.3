@@ -135,6 +135,12 @@ public class zClock {
         updateTimeMarks();
     }
 
+    public void resetLabelEvents(){
+
+        Labels.clear();
+    }
+
+
     public void setNewDayTimeMilis(long newday){
         this.newDayTimeMilis = newday;
         this.newdaytime_angle = ((newDayTimeMilis / 60000f) % 1440) / 4;
@@ -194,9 +200,9 @@ public class zClock {
                 angStart + angle_offset, angLenght, false, p);
 
         //Weather Forecast
-        if (weatherForecast!=null && wForeCond) {
+        if (getBoolPref("showWeather",appWidgetId) && weatherForecast!=null && wForeCond) {
             p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(szFrame);
+            p.setStrokeWidth(getDimensPref("szWeatherFrame",appWidgetId));
             float r2 = raio - szFrame - 2 * szTimeLabPad - textMarksMaxWidth[1] - szWeatherPad;
             canvas.save();
             canvas.rotate(getTimeAngle(this.startForecastTime - timeDST) + angle_offset, canvas.getWidth() / 2, canvas.getHeight() / 2);
@@ -291,7 +297,7 @@ public class zClock {
         for (WeatherData w : this.weatherForecast){
             int c = Color.argb((int)(w.clouds_all*2.55f),255,255,255);
             pos[i]   = ((float)w.getTime()-(float)this.startForecastTime)/(float)delta;
-            if (debug) Log.e(TAG,"wClouds: "+String.format("Color %08X [Dt%d id%d T%f] @ %.2f",c&0xffffffff,w.getTime(),w.weather_id,w.main_temp,pos[i]));
+            if (debug) Log.e(TAG,"wClouds: "+String.format("Color %08X [Dt%d id%d T%f] @ %.2f",c,w.getTime(),w.weather_id,w.main_temp,pos[i]));
             res[i++] = c;
         }
 
@@ -315,30 +321,7 @@ public class zClock {
         for (WeatherData w : this.weatherForecast){
             int c = w.getColorCondition(this.startHue);
             pos[i]   = ((float)w.getTime()-(float)this.startForecastTime)/(float)delta;
-            if (debug) Log.e(TAG,"wData: "+String.format("Color %08X [Dt%d id%d T%f] @ %.2f",c&0xffffffff,w.getTime(),w.weather_id,w.main_temp,pos[i]));
-            res[i++] = c;
-        }
-
-        return new SweepGradient(centro.x, centro.y, res, pos);
-    }
-
-    private Shader getTemperatureShader() {
-
-        int[]   res = new int[this.weatherForecast.length];
-        float[] pos = new float[this.weatherForecast.length];
-
-        if (debug) Log.e("Clock.zcP.Temp","from URL Weather Data");
-
-        this.startForecastTime = this.weatherForecast[0].getTime();
-
-        int i=0;
-
-        long delta = weatherForecast[weatherForecast.length-1].getTime()-startForecastTime;
-
-        for (WeatherData w : this.weatherForecast){
-            int c = w.getColorCondition(this.weatherAlpha,this.wTempMaxC,this.wTempMinC,this.startHue,this.adjustSat);
-            pos[i]   = ((float)w.getTime()-(float)this.startForecastTime)/(float)delta;
-            if (debug) Log.e(TAG,"wData: "+String.format("Color %08X [Dt%d id%d T%f] @ %.2f",c&0xffffffff,w.getTime(),w.weather_id,w.main_temp,pos[i]));
+            if (debug) Log.e(TAG,"wData: "+String.format("Color %08X [Dt%d id%d T%f] @ %.2f",c,w.getTime(),w.weather_id,w.main_temp,pos[i]));
             res[i++] = c;
         }
 
@@ -392,18 +375,6 @@ public class zClock {
         return timeMilis / 60000f % 1440 / 4 %360;
     }
 
-    public Bitmap renderBackground(Bitmap bitmap, int bkgColor, float corners) {
-        Canvas canvas = new Canvas(bitmap);
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(bkgColor);
-        canvas.drawRoundRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()), corners, corners, p);
-        return bitmap;
-    }
-
-    public float getTimeMins() {
-        return (System.currentTimeMillis() / 60000f) % 1440;
-    }
-
     public void updateTimeMarks() {
         raio = (int) (Math.min(pxClock.x / 2, pxClock.y / 2) - textMarksMaxWidth[0] - szFrame - szTimeLabPad);
         this.patFrame = renderDashPathEffect(this.raio);
@@ -450,11 +421,11 @@ public class zClock {
             if (cos < 0) {
                 p.moveTo((float) (r2 * cos) + centro.x, (float) (r2 * sin) + centro.y);
                 p.lineTo((float) (r1 * cos) + centro.x, (float) (r1 * sin) + centro.y);
-                z.alignRight = true ^ z.insideFrame;
+                z.alignRight = !z.insideFrame;
             } else {
                 p.moveTo((float) (r1 * cos) + centro.x, (float) (r1 * sin) + centro.y);
                 p.lineTo((float) (r2 * cos) + centro.x, (float) (r2 * sin) + centro.y);
-                z.alignRight = false ^ z.insideFrame;
+                z.alignRight = z.insideFrame;
             }
             z.path = p;
         }
